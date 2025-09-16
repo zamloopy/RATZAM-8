@@ -1,0 +1,42 @@
+8-Bit Redstone CPU Instruction Set (Extended)
+============================================
+
+Base Instructions
+-----------------
+0x00  NOP       - Do nothing
+0x01  HLT       - Halt execution
+0x02  LDA addr  - Load A from memory at address
+0x03  LDB addr  - Load B from memory at address
+0x04  STA addr  - Store A into memory at address
+0x05  MOV A, B  - Copy B into A
+0x06  LDI A, imm- Load immediate value into A
+0x07  ADD A, B  - A ← A + B
+0x08  SUB A, B  - A ← A - B
+0x09  INC A     - A ← A + 1
+0x0A  DEC A     - A ← A - 1
+0x0B  AND A, B  - A ← A AND B
+0x0C  OR A, B   - A ← A OR B
+0x0D  XOR A, B  - A ← A XOR B
+0x0E  NOT A     - A ← NOT A
+0x0F  SHL A     - Shift A left, MSB → Carry
+0x10  SHR A     - Shift A right, LSB → Carry
+0x11  ROL A     - Rotate A left through Carry
+0x12  ROR A     - Rotate A right through Carry
+0x13  JMP addr  - Jump to address
+0x14  JZ addr   - Jump if Zero flag set
+0x15  JNZ addr  - Jump if Zero flag clear
+0x16  JC addr   - Jump if Carry flag set
+0x17  OUT port  - Send A to output device
+0x18  IN port   - Read input device into A
+
+Extended Instructions
+---------------------
+0x19  CMP A, B  - Compare A and B (sets flags, does not store result)
+0x1A  PUSH A    - Push A onto the stack (SP ← SP - 1, [SP] = A)
+0x1B  POP A     - Pop from stack into A (A ← [SP], SP ← SP + 1)
+0x1C  CALL addr - Call subroutine at addr (push return address, then jump)
+0x1D  RET       - Return from subroutine (pop return address into PC)
+0x1E  CLR A     - Clear register A (set to 0)
+0x1F  SWP A, B  - Swap values in A and B
+
+Total: 32 instructions (0x00–0x1F)
