@@ -1,86 +1,54 @@
-=======================================================================================
+=====================================||
+# ~| RATZAM-8 |~				   ||
+# 8-BIT Minecraft Computer		   ||
+# Zachary M. Allen & Ryan T. Allen      ||
+# Project start-date: 9/16/2025	   ||
+=====================================||
 
-&nbsp;														Zachary M Allen
+This folder contains the design, development, and use of a custom DIY computer implemented in Minecraft, created by brothers Ryan (RAT) and Zack (ZAM) Allen. It's an **8-bit system** utilizing the **Von Neumann Architecture**, with **256 bytes** of total system memory (MEM).  
 
-&nbsp;						'RATZAM-8'						Ryan T Allen
+Programs are loaded from ROM onto an allocated MEM partition. The other main allocation of MEM is the system RAM, though MEM also contains an allocation for the User Input/Output (IOP) system. For example, it can store a sequence of input or output data to operate on over a chunk. The IOP (Input/Output Port control register) contains `0xPiPo`. Pi and Po are nibbles that set the mode of input fetching and output displaying.  
 
-&nbsp;														9/16/2025
+- One mode could continuously display processed outputs.  
+- Another mode could display outputs only when the user sends a signal.  
+- Input/output IOP modes could perform the **Double Dabble algorithm** on input/output before processing, so users can interact with the computer using base-10 instead of binary.  
 
-=======================================================================================
+A small ROM can contain CPU instructions to perform binary-to-BCD conversion in the CPU itself, activated by the Control Unit when a DD (Double Dabble) command is given. Alternatively, a pipelined look-ahead circuit can concurrently process Double Dabble faster but requires more space.  
 
+MEM also contains an allocation for a Stack, where values are "pushed" or "popped".  
 
+The ALU's output flags are used to implement conditional logic within programs. For example, if the result of `A - B` is 0, the program counter (rPC) jumps to address `0xXX`.  
 
-&nbsp;	This folder's contents relates to the design, development, and use of a custom-DIY
+The CPU has the following 8 registers, r1-r8:
+[A, B, X, PC, IR, ACC, MAR, MDR] = [r1, r2, r3, r4, r5, r6, r7, r8]
+- `A` and `B` — working registers for most operations  
+- `PC` — program counter  
+- `X` — general-purpose register  
+- `IR` — instruction register, which reads the control bus and stores the next instruction.  
+- 'MAR' — memory address register
+- 'MDR' — memory data register
+- 'ACC' — accumulator register for ALU feedback
 
-computer implemented in the game Minecraft, created by brothers Ryan (RAT) and Zack 
+Instructions loaded into the IR are decoded into activation signals that control the CPU. Each Op-Code can take an arbitrary number of instruction cycles, so a *CIC (Current Instruction Complete)* signal monitors each instruction’s evaluation. The next instruction is not loaded until the CIC signal goes high. Some Op-Codes require multiple instruction cycles, so the control unit places the appropriate sequence of instructions in the *Instruction Queue* (~4 long). 
 
-(ZAM) Allen. It's an 8-bit system utilizing the Von Neumann Architecture with 256 bytes of
+To store a result from the ALU into RAM at an arbitrary (for example address 0xE5) &0xE5, the ALU output gets loaded into MDR, and the value 0xE5 gets loaded into MAR, which would have been a value programmed and then interpreted by the control unit. With data and address loaded, a command is given to write the data to the selected RAM location.
 
-total system-memory (MEM).
+The Accumulator is the ALU's data feedback register. The control unit saves the current result to ACC when that result is needed for the subsequent operation, though ACC can also be loaded from the CPU registers r1-r8. 
 
-&nbsp;	Programs are loaded from ROM onto an allocated MEM partition.
+---
 
-The other main allocation of MEM is the system RAM, though MEM will also contain an
+## RATZAM-8 Design Requirements
 
-allocation for the User-Input/Output system (e.g. store a sequence of input or output data
+- **Java:** 1.20.1  
+- **Forge:** 47.4.0  
+- **Project Red Mods:** 1.20.1-4.21.0  
+  - Core  
+  - Expansion  
+  - Exploration  
+  - Fabrication  
+  - Illumination  
+  - Integration  
+  - Transmission  
 
-to operate on over a chunk. The IOP (input output port control register) contains 0xPiPo.
-
-Pi and Po are nibbles that set the mode of input fetching and output displaying. One mode
-
-could continuously display processed outputs, or perhaps only outputs when the user send 
-
-a signal. There could also be input/output IOP modes to perform the Double Dabble 
-
-algorithm on the input/output before processing- so the user can interact with the computer 
-
-using base-10 instead of binary. There could be a small ROM containing the needed CPU
-
-instructions to perform the binary-BCD conversion in the CPU itself, activated by the 
-
-Control Unit when a DD (double dabble) command is given. Alternatively, a pipelined 
-
-look-ahead circuit that concurrently processes double dabble would be quicker, but 
-
-physically larger. There is also an allocation of MEM for a Stack, which values are 
-
-"pushed" to or "popped" from.
-
-&nbsp;	The ALU's output flags are used to implement conditional logic within programs.
-
-For example, if the result of A-B is 0, jump the program counter to address 0xXX...
-
-The CPU has working registers rA and rB for most operations, the program counter rPC,
-
-and a general-purpose register rX. These are the registers that the Opcodes operate on. 
-
-The final register is just the instruction register (IR) that reads the control bus and stores
-
-the next instruction in the CPU's control unit. The instruction loaded into the IR is decoded 
-
-into activation signals that appropriately controls the CPU. Each instruction could take an
-
-arbitrary number of clock cycles, so a "CIC" (current instruction complete) signal is used 
-
-to monitor each instruction's evaluation. The next instruction isn't loaded until the CIC signal
-
-goes high.  
-
-
-
-=======================================================================================
-
-This Minecraft redstone computer is designed for:
-
-* Java 1.20.1
-* Forge 47.4.0
-* Project Red Mods 1.20.1-4.21.0
-
-&nbsp;	- core, expansion, exploration, fabrication, illumination, integration, transmission
-
-
-
-
-
-
+---
 
