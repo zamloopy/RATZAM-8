@@ -1,9 +1,7 @@
-=====================================||
-# ~| RATZAM-8 |~				   ||
-# 8-BIT Minecraft Computer		   ||
-# Zachary M. Allen & Ryan T. Allen      ||
-# Project start-date: 9/16/2025	   ||
-=====================================||
+# RATZAM-8			   
+# 8-BIT Minecraft Computer		   
+# Zachary M. Allen & Ryan T. Allen      
+# Project start-date: 9/16/2025	   
 
 This folder contains the design, development, and use of a custom DIY computer implemented in Minecraft, created by brothers Ryan (RAT) and Zack (ZAM) Allen. It's an **8-bit system** utilizing the **Von Neumann Architecture**, with **256 bytes** of total system memory (MEM).  
 
@@ -11,7 +9,7 @@ Programs are loaded from ROM onto an allocated MEM partition. The other main all
 
 - One mode could continuously display processed outputs.  
 - Another mode could display outputs only when the user sends a signal.  
-- Input/output IOP modes could perform the **Double Dabble algorithm** on input/output before processing, so users can interact with the computer using base-10 instead of binary.  
+- Input/output IOP modes could perform the Double Dabble algorithm on input/output before processing, so users can interact with the computer using base-10 instead of binary.  
 
 A small ROM can contain CPU instructions to perform binary-to-BCD conversion in the CPU itself, activated by the Control Unit when a DD (Double Dabble) command is given. Alternatively, a pipelined look-ahead circuit can concurrently process Double Dabble faster but requires more space.  
 
@@ -51,4 +49,3 @@ The Accumulator is the ALU's data feedback register. The control unit saves the 
   - Transmission  
 
 ---
-
