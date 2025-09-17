@@ -1,0 +1,19 @@
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+update_repo.sh
+
+# Editor / IDE temp files
+*.sublime-project
+*.sublime-workspace
+*.vscode/
+*.idea/
+
+# Backup or temp files
+*.bak
+*.tmp
+*.old
+
+# Logs
+*.log
