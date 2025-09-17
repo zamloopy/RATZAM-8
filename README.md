@@ -1,7 +1,7 @@
 # RATZAM-8			   
 # 8-BIT Minecraft Computer		   
 # Zachary M. Allen & Ryan T. Allen      
-# Project start-date: 9/16/2025	   
+# Start-Date: 9/16/2025	   
 
 This folder contains the design, development, and use of a custom DIY computer implemented in Minecraft, created by brothers Ryan (RAT) and Zack (ZAM) Allen. It's an **8-bit system** utilizing the **Von Neumann Architecture**, with **256 bytes** of total system memory (MEM).  
 
