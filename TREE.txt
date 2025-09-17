@@ -1,4 +1,5 @@
-├── RATZAM_SIMULATOR
+
+├── SIMULATOR
 │   ├── assembler
 │   │   ├── assembler.py
 │   │   └── programs
@@ -38,3 +39,5 @@
 │   │       └── clk_gen.vhd
 │   └── waveforms
 │       └── cpu_waves.ghw
+├── 
+
