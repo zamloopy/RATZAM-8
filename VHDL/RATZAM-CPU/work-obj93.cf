@@ -1,0 +1,10 @@
+v 4
+file . "tb/tb_cpu8.vhd" "851205b30979e9e3b1f7197bdbf0469b6f3675e9" "20250917155306.520":
+  entity tb_cpu8 at 1( 0) + 0 on 23;
+  architecture sim of tb_cpu8 at 8( 102) + 0 on 24;
+file . "src/alu8.vhd" "52c2de71034ca9e38cff19eabc5631dd87cf0b6b" "20250917155000.288":
+  entity alu8 at 1( 0) + 0 on 19;
+  architecture behavioral of alu8 at 29( 863) + 0 on 20;
+file . "src/cpu8.vhd" "26236ac16ef3184ca881899d979a21ab1fde2869" "20250917155002.916":
+  entity cpu8 at 1( 0) + 0 on 21;
+  architecture rtl of cpu8 at 25( 735) + 0 on 22;
