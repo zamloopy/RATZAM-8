@@ -1,3 +1,4 @@
+
 # RATZAM-8			   
 # 8-BIT Minecraft Computer		   
 # Zachary M. Allen & Ryan T. Allen      
@@ -33,8 +34,6 @@ To store a result from the ALU into RAM at an arbitrary (for example address 0xE
 
 The Accumulator is the ALU's data feedback register. The control unit saves the current result to ACC when that result is needed for the subsequent operation, though ACC can also be loaded from the CPU registers r1-r8. 
 
----
-
 ## RATZAM-8 Design Requirements
 
 - **Java:** 1.20.1  
@@ -48,4 +47,3 @@ The Accumulator is the ALU's data feedback register. The control unit saves the 
   - Integration  
   - Transmission  
 
----
