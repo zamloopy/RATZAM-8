@@ -102,38 +102,51 @@ python3 assembler.py countdown.asm countdown.mem
 
 ## Opcode Table (RATZAM-8 ISA)
 
-| Mnemonic      | Opcode | Bytes | Description                          |
-|---------------|--------|-------|--------------------------------------|
-| NOP           | 0x00   | 1     | No operation                         |
-| HLT           | 0x01   | 1     | Halt execution                       |
-| LDA #imm      | 0x04   | 2     | Load immediate into ACC              |
-| LDA &addr     | 0x02   | 2     | Load from memory into ACC            |
-| STA &addr     | 0x03   | 2     | Store ACC into memory                |
-| ADD ACC,TMP   | 0x05   | 1     | ACC = ACC + TMP                      |
-| ADD ACC,MDR   | 0x06   | 1     | ACC = ACC + MDR                      |
-| SUB ACC,TMP   | 0x07   | 1     | ACC = ACC - TMP                      |
-| SUB ACC,MDR   | 0x08   | 1     | ACC = ACC - MDR                      |
-| INC ACC       | 0x09   | 1     | Increment ACC                        |
-| DEC ACC       | 0x0A   | 1     | Decrement ACC                        |
-| AND ACC,TMP   | 0x0B   | 1     | ACC = ACC & TMP                       |
-| OR ACC,TMP    | 0x0C   | 1     | ACC = ACC | TMP                       |
-| XOR ACC,TMP   | 0x0D   | 1     | ACC = ACC ^ TMP                       |
-| NOT ACC       | 0x0E   | 1     | Bitwise NOT ACC                       |
-| SHL ACC       | 0x0F   | 1     | Shift ACC left                        |
-| SHR ACC       | 0x10   | 1     | Shift ACC right                       |
-| CLR ACC       | 0x11   | 1     | Clear ACC                             |
-| LDT &addr     | 0x12   | 2     | Load TMP from memory                  |
-| JMP &addr     | 0x13   | 2     | Unconditional jump                    |
-| JZ &addr      | 0x14   | 2     | Jump if ACC == 0                      |
-| JNZ &addr     | 0x15   | 2     | Jump if ACC != 0                      |
-| JC &addr      | 0x16   | 2     | Jump if carry                          |
-| AND ACC,MDR   | 0x17   | 1     | ACC = ACC & MDR                        |
-| OR ACC,MDR    | 0x18   | 1     | ACC = ACC | MDR                        |
-| XOR ACC,MDR   | 0x19   | 1     | ACC = ACC ^ MDR                        |
-| CMP ACC,TMP   | 0x1A   | 1     | Compare ACC with TMP                   |
-| CMP ACC,MDR   | 0x1B   | 1     | Compare ACC with MDR                   |
-| PSH ACC       | 0x1C   | 1     | Push ACC to stack                      |
-| POP ACC       | 0x1D   | 1     | Pop stack to ACC                        |
-| OUT &port     | 0x1E   | 2     | Output ACC to port                      |
-| IN &port      | 0x1F   | 2     | Input from port into ACC                |
+| Category         | Instruction   | Opcode |
+| ---------------- | ------------- | ------ |
+| NOP/Halt         | NOP           | 0x00   |
+|                  | HLT           | 0x01   |
+| Load/Store       | LDA\_ADDR     | 0x02   |
+|                  | STA\_ADDR     | 0x03   |
+|                  | LDA\_IMM      | 0x04   |
+|                  | LDT\_ADDR     | 0x05   |
+|                  | LD\_TMP       | 0x06   |
+|                  | INC\_MEM      | 0x07   |
+|                  | DEC\_MEM      | 0x08   |
+| ALU reg/reg      | ADD\_ACC\_TMP | 0x09   |
+|                  | ADD\_ACC\_MDR | 0x0A   |
+|                  | SUB\_ACC\_TMP | 0x0B   |
+|                  | SUB\_ACC\_MDR | 0x0C   |
+|                  | AND\_ACC\_TMP | 0x0D   |
+|                  | AND\_ACC\_MDR | 0x0E   |
+|                  | OR\_ACC\_TMP  | 0x0F   |
+|                  | OR\_ACC\_MDR  | 0x10   |
+|                  | XOR\_ACC\_TMP | 0x11   |
+|                  | XOR\_ACC\_MDR | 0x12   |
+|                  | CMP\_ACC\_TMP | 0x13   |
+|                  | CMP\_ACC\_MDR | 0x14   |
+| ALU reg/imm      | ADD\_ACC\_IMM | 0x15   |
+|                  | SUB\_ACC\_IMM | 0x16   |
+|                  | CMP\_ACC\_IMM | 0x17   |
+|                  | AND\_ACC\_IMM | 0x18   |
+|                  | OR\_ACC\_IMM  | 0x19   |
+|                  | XOR\_ACC\_IMM | 0x1A   |
+| ALU single       | INC\_ACC      | 0x1B   |
+|                  | DEC\_ACC      | 0x1C   |
+|                  | NOT\_ACC      | 0x1D   |
+|                  | SHL\_ACC      | 0x1E   |
+|                  | SHR\_ACC      | 0x1F   |
+|                  | CLR\_ACC      | 0x20   |
+| Jump/Conditional | JMP\_ADDR     | 0x21   |
+|                  | JZ\_ADDR      | 0x22   |
+|                  | JNZ\_ADDR     | 0x23   |
+|                  | JC\_ADDR      | 0x24   |
+|                  | JLT\_ADDR     | 0x25   |
+| Stack            | PSH\_ACC      | 0x26   |
+|                  | POP\_ACC      | 0x27   |
+| I/O              | OUT\_PORT     | 0x28   |
+|                  | IN\_PORT      | 0x29   |
 
+## NOTES
+
+Including imm loads for TMP and ACC lowered program mem by 20%
