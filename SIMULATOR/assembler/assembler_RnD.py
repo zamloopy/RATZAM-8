@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Enhanced assembler for the RATZAM-8 CPU.
+Enhanced RATZAM-8 assembler with array support.
 
 Usage:
     python assembler.py input.asm output.mem
@@ -50,7 +50,7 @@ OPCODES = {
 # ----- HELPERS -----
 def parse_number(tok):
     tok = tok.strip()
-    if tok.startswith('&') or tok.startswith('#'):
+    if tok.startswith('#') or tok.startswith('&'):
         return int(tok[1:], 16) & 0xFF
     if tok.lower().startswith('0x'):
         return int(tok[2:], 16) & 0xFF
@@ -68,10 +68,11 @@ def assemble_lines(lines):
 
     cleaned = [strip_comment(line) for line in lines if strip_comment(line)]
     labels = {}
+    arrays = {}
     address = 0
     tokens_per_line = []
 
-    # Pass 1: gather labels
+    # Pass 1: gather labels and array definitions
     for line in cleaned:
         if re.match(r'^[A-Za-z_][A-Za-z0-9_]*\s*:$', line):
             label = line.rstrip(':')
@@ -80,6 +81,18 @@ def assemble_lines(lines):
             labels[label] = address
             tokens_per_line.append((line, [], True))
             continue
+
+        # Check for array definition: @name #length
+        arr_match = re.match(r'^@([A-Za-z_][A-Za-z0-9_]*)\s+#([0-9A-Fa-f]+)$', line)
+        if arr_match:
+            arr_name = arr_match.group(1)
+            arr_len = parse_number('#'+arr_match.group(2))
+            arrays[arr_name] = (address, arr_len)
+            labels[arr_name] = address  # label for start address
+            address += arr_len
+            tokens_per_line.append((line, [], True))
+            continue
+
         parts = re.split(r'\s+', line.strip())
         mnemonic = canonicalize(parts[0])
         args = parts[1:]
@@ -139,8 +152,28 @@ def assemble_lines(lines):
                 continue
             raise ValueError(f"Unknown operand form: {argline}")
 
-        # --- single operand / address / port ---
+        # --- single operand / address / array ---
         def resolve_val(op):
+            # array element
+            arr_elem_match = re.match(r'^([A-Za-z_][A-Za-z0-9_]*)\[(0x[0-9A-Fa-f]+|[0-9]+)\]$', op)
+            if arr_elem_match:
+                name = arr_elem_match.group(1)
+                idx = parse_number(arr_elem_match.group(2))
+                if name not in arrays:
+                    raise ValueError(f"Undefined array: {name}")
+                start_addr, length = arrays[name]
+                if idx >= length:
+                    raise ValueError(f"Array index out of bounds: {name}[{idx}]")
+                return start_addr + idx
+
+            # @name → start address of array
+            if op.startswith('@'):
+                name = op[1:]
+                if name not in labels:
+                    raise ValueError(f"Undefined label/array: {name}")
+                return labels[name]
+
+            # normal label or number
             if re.match(r'^[A-Za-z_][A-Za-z0-9_]*$', op):
                 if op not in labels:
                     raise ValueError(f"Undefined label: {op}")

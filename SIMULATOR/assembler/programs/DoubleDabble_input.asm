@@ -1,24 +1,22 @@
 ; Double Dabble 3-digit BCD -> 8-bit binary
-; Input: IN &02 (BCD ones)
-;        IN &03 (BCD tens)
-;        IN &04 (BCD hundreds)
+; Input: IN &02 (ones), &03 (tens), &04 (hundreds)
 ; Output: binary stored at &30
 ; RAM: &10=hundreds, &11=tens, &12=ones, &13=result, &14=loop counter
 
-        IN  &02
-        STA &12       ; ones
-        IN  &03
-        STA &11       ; tens
-        IN  &04
-        STA &10       ; hundreds
+        IN &02
+        STA &12        ; ones
+        IN &03
+        STA &11        ; tens
+        IN &04
+        STA &10        ; hundreds
 
         LDA #00
-        STA &13       ; result = 0
+        STA &13        ; result = 0
         LDA #08
-        STA &14       ; 8 shift iterations
+        STA &14        ; loop counter = 8
 
 dd_loop:
-        ; add-3 corrections if >=5
+        ; Add-3 corrections
         LDA &10
         CMP ACC, #05
         JLT skip_hund
@@ -38,31 +36,31 @@ skip_tens:
         STA &12
 skip_ones:
 
-        ; shift left across digits
+        ; Shift left across digits
         LDA &10
-        SHL
+        SHL ACC
         STA &10
 
         LDA &11
-        SHL
+        SHL ACC
         STA &11
 
         LDA &12
-        SHL
+        SHL ACC
         STA &12
 
         LDA &13
-        SHL
+        SHL ACC
         STA &13
 
-        ; decrement loop counter
+        ; Decrement loop counter
         LDA &14
-        DEC
+        DEC ACC
         STA &14
         CMP ACC, #00
-        JNZ dd_loop   ; continue until counter = 0
+        JGT dd_loop    ; continue until counter != 0
 
-        ; store result
+        ; Store result
         LDA &13
         STA &30
         HLT
