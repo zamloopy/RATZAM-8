@@ -1,10 +1,36 @@
-
+.
+├── directory_tree.txt
+├── MISC
+│   ├── Architecture
+│   │   ├── ascii InputOutput.png
+│   │   ├── InputOutput Controller.png
+│   │   ├── Intel 8088 example.png
+│   │   ├── Op-Code Instruction Decoder.png
+│   │   └── VonNeumann-1.png
+│   ├── Current_Design
+│   ├── Drawing_Board
+│   │   ├── assembly_code.jpg
+│   │   ├── Basic_Diagram&OpCodes.jpg
+│   │   ├── MEM_allocation.jpg
+│   │   └── work1.jpg
+│   ├── Example_cpu_instructions.txt
+│   └── misc
+│       ├── BCDto24bitDoubleDabble.jpg
+│       └── ifmorethan7sub3.jpg
+├── README.md
+├── RESOURCES
+│   ├── Diagrams
+│   │   └── Block-1.drawio
+│   └── icon.png
 ├── SIMULATOR
 │   ├── assembler
 │   │   ├── assembler.py
-│   │   └── programs
-│   │       ├── program-0.asm
-│   │       └── program-0.mem
+│   │   ├── assembler_RnD.py
+│   │   ├── programs
+│   │   │   ├── ArrayTest.asm
+│   │   │   ├── DoubleDabble_input.asm
+│   │   │   └── DoubleDabble_input.mem
+│   │   └── README.md
 │   ├── laboratory
 │   │   ├── GHDL_README.txt
 │   │   └── run_ghdl.sh
@@ -39,5 +65,34 @@
 │   │       └── clk_gen.vhd
 │   └── waveforms
 │       └── cpu_waves.ghw
-├── 
+├── UPDATE_REPOSITORY.sh
+└── VHDL
+    ├── RATZAM-CPU
+    │   ├── README.md
+    │   ├── sim
+    │   │   └── wave.vcd
+    │   ├── src
+    │   │   ├── alu8.vhd
+    │   │   ├── cpu8.vhd
+    │   │   ├── io_devices.vhd
+    │   │   ├── mem8x256.vhd
+    │   │   └── top_cpu.vhd
+    │   ├── tb
+    │   │   ├── tb_alu8.vhd
+    │   │   ├── tb_cpu8.vhd
+    │   │   └── tb_mem8x256.vhd
+    │   └── work-obj93.cf
+    └── Simulations
+        ├── alu
+        │   ├── alu8.ghw
+        │   ├── alu8.vhd
+        │   ├── Screenshot from 2025-09-17 05-23-09.png
+        │   ├── tb_alu8.vhd
+        │   └── work-obj93.cf
+        └── mem
+            ├── mem8x256.vhd
+            ├── tb_mem8x256.vhd
+            ├── wave.vcd
+            └── work-obj93.cf
 
+28 directories, 68 files
